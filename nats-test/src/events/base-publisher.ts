@@ -6,6 +6,11 @@ interface Event {
 	data: any;
 }
 
+/**
+ * In the main publisher TS file, we can use this Publisher Generic class.
+ * This will help to remove typo bugs in publisher subject event.
+ * As in the interface we are talomg subject as Subject emum.
+ */
 export abstract class Publisher<T extends Event> {
 	abstract subject: T['subject'];
 	private client: Stan;
