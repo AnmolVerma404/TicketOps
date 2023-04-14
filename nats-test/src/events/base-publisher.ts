@@ -18,10 +18,21 @@ export abstract class Publisher<T extends Event> {
 	constructor(client: Stan) {
 		this.client = client;
 	}
-
-	publish(data: T['data']) {
-		this.client.publish(this.subject, JSON.stringify(data), () => {
-			console.log('Event Published');
+	/**
+	 * As in real world this NATS streaming servier might be sitting on another location
+	 * Therefore we will send a promise of type void
+	 * This also shows how async/await is created.
+	 * If we remove this promise code, then in the publisher file depending on your IDe will show error or warning that might be similar to compiler saying "there is no need of await here"
+	 */
+	publish(data: T['data']): Promise<void> {
+		return new Promise((resolve, reject) => {
+			this.client.publish(this.subject, JSON.stringify(data), err => {
+				if (err) {
+					return reject(err);
+				}
+				console.log('Event Published');
+				resolve();
+			});
 		});
 	}
 }

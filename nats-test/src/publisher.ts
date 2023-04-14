@@ -12,7 +12,7 @@ const stan = nats.connect('ticketing', 'abc', {
  * stan nats after connecting will call a connect event
  * Which can be catched by stan
  */
-stan.on('connect', () => {
+stan.on('connect', async () => {
 	console.log('Publisher connected to nats');
 
 	// // converts data to string
@@ -28,11 +28,15 @@ stan.on('connect', () => {
 	// });
 
 	const publisher = new TicketCreatedPublisher(stan);
-	publisher.publish({
-		id: '123',
-		title: 'Concert',
-		price: 20,
-	});
+	try {
+		await publisher.publish({
+			id: '123',
+			title: 'Concert',
+			price: 20,
+		});
+	} catch (err) {
+		console.log(err);
+	}
 });
 /**
  * Port-forwarding
