@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { app } from './app';
+import { natsWrapper } from './nats-wrapper';
 
 const start = async () => {
 	if (!process.env.JWT_KEY) {
@@ -9,6 +10,7 @@ const start = async () => {
 		throw new Error('MONGO_URI must be defined');
 	}
 	try {
+		await natsWrapper.connect('ticketing', 'asdgrr', 'http://nats-srv:4222');
 		/**
 		 * This will allow us to connect to a local database of mongoDB.
 		 * As this will be running inside a container.
