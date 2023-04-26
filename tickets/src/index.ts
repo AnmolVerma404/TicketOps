@@ -11,6 +11,14 @@ const start = async () => {
 	}
 	try {
 		await natsWrapper.connect('ticketing', 'asdgrr', 'http://nats-srv:4222');
+		natsWrapper.client.on('close', () => {
+			console.log('NATS connection closed!');
+			process.exit();
+		});
+
+		process.on('SiGINT', () => natsWrapper.client!.close()); // ctrl + s || rs the server
+		process.on('SIGTERM', () => natsWrapper.client!.close()); // ctrl + c terminate the terminal
+
 		/**
 		 * This will allow us to connect to a local database of mongoDB.
 		 * As this will be running inside a container.

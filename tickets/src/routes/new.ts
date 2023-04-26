@@ -3,6 +3,7 @@ import { requireAuth, validateRequest } from '@avtickets404/common';
 import { body } from 'express-validator';
 import { Ticket } from '../models/ticket';
 import { TicketCreatedPublisher } from '../events/publishers/ticket-created-publisher';
+import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
 
@@ -25,12 +26,17 @@ router.post(
 			userId: req.currentUser!.id,
 		});
 		await ticket.save();
-		// new TicketCreatedPublisher(client).publish({
-		// 	id: ticket.id,
-		// 	title: ticket.title,
-		// 	price: ticket.price,
-		// 	userId: ticket.userId,
-		// });
+		/**
+		 * natsWrapper.client dosen't need a closing paranthesis
+		 * As this seems more general to user.
+		 * In tech term, the getter and setter property are not function
+		 */
+		new TicketCreatedPublisher(natsWrapper.client).publish({
+			id: ticket.id,
+			title: ticket.title,
+			price: ticket.price,
+			userId: ticket.userId,
+		});
 
 		res.status(201).send(ticket);
 	}
