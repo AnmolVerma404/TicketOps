@@ -11,6 +11,11 @@ const start = async () => {
 	}
 	try {
 		await natsWrapper.connect('ticketing', 'asdgrr', 'http://nats-srv:4222');
+
+		/**
+		 * This is implemented here not in the modules, as we don't want our package to have the ability to close connection
+		 * Instead user can close when ever they want
+		 */
 		natsWrapper.client.on('close', () => {
 			console.log('NATS connection closed!');
 			process.exit();
