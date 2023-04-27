@@ -42,12 +42,30 @@ The app will be available at http://localhost:3000. -->
 
 ## 🚩Stack Explained
 
-- Typescript: a superset of JavaScript that adds static type definitions and other features to the language
-- NodeJS: a JavaScript runtime built on Chrome's V8 JavaScript engine that allows developers to build server-side applications in JavaScript
-- Express: a popular web application framework for NodeJS
+- **Typescript**: a superset of JavaScript that adds static type definitions and other features to the language
+- **NodeJS**: a JavaScript runtime built on Chrome's V8 JavaScript engine that allows developers to build server-side applications in JavaScript
+- **Express**: a popular web application framework for NodeJS
   Nats streaming server: a high-performance messaging system for building distributed applications
-- Docker: a platform for building, shipping, and running applications in containers
-- Kubernetes: an open-source system for automating deployment, scaling, and management of containerized applications
+- **Docker**: a platform for building, shipping, and running applications in containers
+- **Kubernetes**: an open-source system for automating deployment, scaling, and management of containerized applications
+- **Skaffold** is a service more like nodemon for kubernetes, it solve many time taking steps and automate applying, pushing, and redeploying of cluster. You just need to have a proper _skaffold.yaml_ file with it's command in it, inside your project directory and run the command `skaffold dev` to start the server. It will check the file for any changes you tagged inside skaffold.yaml congig file. Remember to push the build and push the image to docker hub before running skaffold dev. If skaffold is showing some error just restart it.
+- **Git submodules**
+  - When you are in a repo and need to add another repo in your project.
+  - This is the case to use submodules
+  - Steps
+    - Create a new repo
+    - Copy url of the repo
+    - Then run command of the parent repo `git submodule add <url> <file path>`
+- **NATS Streaming Server**
+  - Alternative of event bus
+    - Event bus was channel via which our Microservices can talk with each other.
+    - It's implementation was simple using Express and Axios
+    - Wherever an event get trigger it's send to the event bus, then event bus throw that updated/event to every microservice.
+    - But there were many missing functionalities
+      - History queue if a service stop running for sum time. The update should be saved in some sort of queue. So that when it's live again it get updated
+      - All event history, if new service in implemented it need to be updated with all the log's and data that was ever transmitted.
+      - This features can be build but we already have an solution for this i.e. NATS Streaming Server. Which solves this problem and make event bus handling easier.
+  - In this ticket application, NATS is being used. Ticket creation and updation for a large scale application have been made possible by it.
 
 ## 🚩Contributing
 
