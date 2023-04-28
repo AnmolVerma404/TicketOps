@@ -37,6 +37,7 @@ beforeAll(async () => {
  * This will reset/delete all the collection that are present in the server
  */
 beforeEach(async () => {
+	jest.clearAllMocks();
 	/**
 	 * As in test we will have same data
 	 * Therefore to correctly run we need to delete all the collection
