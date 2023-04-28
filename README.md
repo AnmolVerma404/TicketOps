@@ -66,6 +66,9 @@ The app will be available at http://localhost:3000. -->
       - All event history, if new service in implemented it need to be updated with all the log's and data that was ever transmitted.
       - This features can be build but we already have an solution for this i.e. NATS Streaming Server. Which solves this problem and make event bus handling easier.
   - In this ticket application, NATS is being used. Ticket creation and updation for a large scale application have been made possible by it.
+- **Jest**
+  - Jest is used for testing.
+  - Mock in jest is used to create a function that simulate/mimic the original function. It allow developer to test their code in isolation, without having to intract with complex or external dependencies.
 
 ## 🚩Contributing
 
