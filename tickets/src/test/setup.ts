@@ -8,6 +8,8 @@ declare global {
 	var signin: () => string[];
 }
 
+jest.mock('../nats-wrapper.ts');
+
 /**
  * This is a jest hock beforeAll
  * This will run at start with we will run the test
