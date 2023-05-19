@@ -27,7 +27,7 @@ metadata:
 spec:
   selector:
     app: orders-mongo
-  por1s:
+  ports:
     - name: db
       protocol: TCP
       port: 27017
