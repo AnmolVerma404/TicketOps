@@ -1,20 +1,20 @@
+import mongoose from 'mongoose';
+import express, { Request, Response } from 'express';
 import {
 	BadRequestError,
 	NotFoundError,
 	requireAuth,
 	validateRequest,
 } from '@avtickets404/common';
-import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import mongoose from 'mongoose';
 import { Ticket } from '../modals/ticket';
 import { Order, OrderStatus } from '../modals/order';
 
+const router = express.Router();
 const EXPIRATION_WINDOW_SECONDS = 15 * 60;
 
-const router = express.Router();
 router.post(
-	'api/orders',
+	'/api/orders',
 	requireAuth,
 	[
 		body('ticketId')
