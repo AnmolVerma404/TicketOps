@@ -3,6 +3,13 @@ import { Ticket } from '../../modals/ticket';
 import request from 'supertest';
 
 it('fetches the order', async () => {
+	/**
+	 * Create a ticket and save it.
+	 * Signin a user and save the cookie in user var
+	 * create an order and store it's body in order var to get the order id
+	 * fetch the order created by the order id
+	 * check if the orderfetched is the same as ordered
+	 */
 	const ticket = Ticket.build({
 		title: 'concert',
 		price: 20,
@@ -27,6 +34,13 @@ it('fetches the order', async () => {
 });
 
 it('returns an error if one user tries to fetch another users order', async () => {
+	/**
+	 * Create a ticket and save it.
+	 * Signin a user and save the cookie in user var
+	 * create an order and store it's body in order var to get the order id
+	 * fetch the order created by the order id but different user (do this by new signin)
+	 * check if you get 401 i.e. you cant access the order details
+	 */
 	const ticket = Ticket.build({
 		title: 'concert',
 		price: 20,
