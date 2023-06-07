@@ -9,6 +9,8 @@ import {
 import { body } from 'express-validator';
 import { Ticket } from '../modals/ticket';
 import { Order, OrderStatus } from '../modals/order';
+import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
+import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
 const EXPIRATION_WINDOW_SECONDS = 15 * 60;
@@ -31,6 +33,7 @@ router.post(
 		 * If the ticket is not found throw error otherwise continue
 		 * Now check the ticket's state, if it's in cancled state it's good to go otherwise it's used someware and you can proceed
 		 * Set the ticket expiration date.
+		 * Publish the event that a new order is created
 		 */
 
 		const { ticketId } = req.body;
@@ -56,6 +59,17 @@ router.post(
 		});
 
 		await order.save();
+
+		new OrderCreatedPublisher(natsWrapper.client).publish({
+			id: order.id,
+			status: order.status,
+			userId: order.userId,
+			expiresAt: order.expiresAt.toISOString(),
+			ticket: {
+				id: ticket.id,
+				price: ticket.price,
+			},
+		});
 
 		res.status(201).send(order);
 	}
