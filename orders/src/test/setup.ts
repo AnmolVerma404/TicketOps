@@ -41,6 +41,7 @@ beforeEach(async () => {
 	 * Therefore to correctly run we need to delete all the collection
 	 */
 	const collections = await mongoose.connection.db.collections();
+
 	for (let collection of collections) {
 		await collection.deleteMany({});
 	}

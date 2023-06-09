@@ -1,6 +1,7 @@
 import request from 'supertest';
-import { Ticket } from '../../models/ticket';
 import { app } from '../../app';
+import { Order } from '../../models/order';
+import { Ticket } from '../../models/ticket';
 
 const buildTicket = async () => {
 	const ticket = Ticket.build({
@@ -12,7 +13,7 @@ const buildTicket = async () => {
 	return ticket;
 };
 
-it('fetches order for a perticular user', async () => {
+it('fetches orders for an particular user', async () => {
 	/**
 	 * Create three user and get cookie.
 	 * Create order. 1 for userOne, and 2 for userTwo

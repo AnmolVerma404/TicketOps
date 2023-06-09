@@ -14,6 +14,7 @@ import { OrderCreatedPublisher } from '../events/publishers/order-created-publis
 import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
+
 const EXPIRATION_WINDOW_SECONDS = 15 * 60;
 
 router.post(
@@ -58,7 +59,6 @@ router.post(
 			expiresAt: expiration,
 			ticket,
 		});
-
 		await order.save();
 
 		new OrderCreatedPublisher(natsWrapper.client).publish({
