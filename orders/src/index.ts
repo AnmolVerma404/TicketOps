@@ -20,6 +20,7 @@ const start = async () => {
 	if (!process.env.NATS_CLUSTER_ID) {
 		throw new Error('NATS_CLUSTER_ID must be defined');
 	}
+
 	try {
 		await natsWrapper.connect(
 			process.env.NATS_CLUSTER_ID,
@@ -35,9 +36,10 @@ const start = async () => {
 			console.log('NATS connection closed!');
 			process.exit();
 		});
-
-		process.on('SiGINT', () => natsWrapper.client!.close()); // ctrl + s || rs the server
-		process.on('SIGTERM', () => natsWrapper.client!.close()); // ctrl + c terminate the terminal
+		// ctrl + s || rs the server
+		process.on('SIGINT', () => natsWrapper.client.close());
+		// ctrl + c terminate the terminal
+		process.on('SIGTERM', () => natsWrapper.client.close());
 
 		new TicketCreatedListener(natsWrapper.client).listen();
 		new TicketUpdatedListener(natsWrapper.client).listen();

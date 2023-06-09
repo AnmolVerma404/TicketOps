@@ -6,11 +6,13 @@ interface TicketAttrs {
 	title: string;
 	price: number;
 }
+
 export interface TicketDoc extends mongoose.Document {
 	title: string;
 	price: number;
 	isReserved(): Promise<boolean>;
 }
+
 interface TicketModel extends mongoose.Model<TicketDoc> {
 	build(attrs: TicketAttrs): TicketDoc;
 }
@@ -55,8 +57,9 @@ ticketSchema.statics.build = (attrs: TicketAttrs) => {
  * classic function insted of arrow function, because we want to access this keyword.
  */
 ticketSchema.methods.isReserved = async function () {
+	// this === the ticket document that we just called 'isReserved' on
 	const existingOrder = await Order.findOne({
-		ticket: this,
+		ticket: this as any,
 		status: {
 			$in: [
 				OrderStatus.Created,

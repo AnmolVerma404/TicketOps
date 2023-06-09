@@ -3,6 +3,7 @@ import { OrderStatus } from '@avtickets404/common';
 import { TicketDoc } from './ticket';
 
 export { OrderStatus };
+
 interface OrderAttrs {
 	userId: string;
 	status: OrderStatus;
