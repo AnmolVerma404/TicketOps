@@ -1,5 +1,5 @@
 import { app } from '../../app';
-import { Ticket } from '../../modals/ticket';
+import { Ticket } from '../../models/ticket';
 import request from 'supertest';
 
 it('fetches the order', async () => {

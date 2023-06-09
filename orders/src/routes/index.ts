@@ -1,6 +1,6 @@
 import { requireAuth } from '@avtickets404/common';
 import express, { Request, Response } from 'express';
-import { Order } from '../modals/order';
+import { Order } from '../models/order';
 
 const router = express.Router();
 

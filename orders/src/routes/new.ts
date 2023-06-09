@@ -1,14 +1,15 @@
 import mongoose from 'mongoose';
 import express, { Request, Response } from 'express';
 import {
-	BadRequestError,
-	NotFoundError,
 	requireAuth,
 	validateRequest,
+	NotFoundError,
+	OrderStatus,
+	BadRequestError,
 } from '@avtickets404/common';
 import { body } from 'express-validator';
-import { Ticket } from '../modals/ticket';
-import { Order, OrderStatus } from '../modals/order';
+import { Ticket } from '../models/ticket';
+import { Order } from '../models/order';
 import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
 import { natsWrapper } from '../nats-wrapper';
 

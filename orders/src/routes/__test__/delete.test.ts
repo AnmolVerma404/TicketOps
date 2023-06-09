@@ -1,7 +1,7 @@
 import request from 'supertest';
-import { Ticket } from '../../modals/ticket';
+import { Ticket } from '../../models/ticket';
 import { app } from '../../app';
-import { Order, OrderStatus } from '../../modals/order';
+import { Order, OrderStatus } from '../../models/order';
 import { natsWrapper } from '../../nats-wrapper';
 
 it('marks an order as cancelled', async () => {

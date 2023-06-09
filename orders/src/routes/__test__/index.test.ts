@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { Ticket } from '../../modals/ticket';
+import { Ticket } from '../../models/ticket';
 import { app } from '../../app';
 
 const buildTicket = async () => {

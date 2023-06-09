@@ -1,11 +1,10 @@
-import {
-	NotAuthorizedError,
-	NotFoundError,
-	OrderStatus,
-	requireAuth,
-} from '@avtickets404/common';
 import express, { Request, Response } from 'express';
-import { Order } from '../modals/order';
+import {
+	requireAuth,
+	NotFoundError,
+	NotAuthorizedError,
+} from '@avtickets404/common';
+import { Order, OrderStatus } from '../models/order';
 import { OrderCancelledPublisher } from '../events/publishers/order-cancelled-publisher';
 import { natsWrapper } from '../nats-wrapper';
 
