@@ -14,11 +14,9 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
 		 * That is the version that is given by Ticket Microservice should be currVersion - 1
 		 * Eg -> In ticket MS updation looks like -> 10$ V0 -> 15$ V1 -> 20$ V2
 		 * Now if we have version 2 TicketUpdatedEvent that means V1 should be present. Otherwise it will cause concurrency issue.
+		 * To reduce and simplify the code this is implemented in findByEvent.
 		 */
-		const ticket = await Ticket.findOne({
-			_id: data.id,
-			version: data.version - 1,
-		});
+		const ticket = await Ticket.findByEvent(data);
 
 		if (!ticket) {
 			throw new Error('Ticket not found');
