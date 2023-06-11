@@ -1,0 +1,31 @@
+import {
+	Listener,
+	NotFoundError,
+	OrderCreatedEvent,
+	Subjects,
+} from '@avtickets404/common';
+import { Message } from 'node-nats-streaming';
+import { queueGroupName } from './queue-group-name';
+import { Ticket } from '../../models/ticket';
+
+export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
+	subject: Subjects.OrderCreated = Subjects.OrderCreated;
+	queueGroupName = queueGroupName;
+	async onMessage(data: OrderCreatedEvent['data'], msg: Message) {
+		/**
+		 * This listener will listen to OrderCreatedEvent
+		 * Then will lock the ticket when a user is trying to order it
+		 */
+
+		const ticket = await Ticket.findById(data.ticket.id);
+
+		if (!ticket) {
+			throw new NotFoundError();
+		}
+
+		ticket.set({ orderId: data.id });
+		await ticket.save();
+
+		msg.ack();
+	}
+}
