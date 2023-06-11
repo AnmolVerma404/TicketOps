@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { app } from '../../app';
 import { Ticket } from '../../models/ticket';
+import mongoose from 'mongoose';
 
 it('fetches the order', async () => {
 	/**
@@ -11,6 +12,7 @@ it('fetches the order', async () => {
 	 * check if the orderfetched is the same as ordered
 	 */
 	const ticket = Ticket.build({
+		id: new mongoose.Types.ObjectId().toHexString(),
 		title: 'concert',
 		price: 20,
 	});
@@ -43,6 +45,7 @@ it('returns an error if one user tries to fetch another users order', async () =
 	 * check if you get 401 i.e. you cant access the order details
 	 */
 	const ticket = Ticket.build({
+		id: new mongoose.Types.ObjectId().toHexString(),
 		title: 'concert',
 		price: 20,
 	});

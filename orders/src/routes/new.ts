@@ -62,16 +62,17 @@ router.post(
 		await order.save();
 		console.log('Order done!!!');
 
-		// new OrderCreatedPublisher(natsWrapper.client).publish({
-		// 	id: order.id,
-		// 	status: order.status,
-		// 	userId: order.userId,
-		// 	expiresAt: order.expiresAt.toISOString(),
-		// 	ticket: {
-		// 		id: ticket.id,
-		// 		price: ticket.price,
-		// 	},
-		// });
+		new OrderCreatedPublisher(natsWrapper.client).publish({
+			id: order.id,
+			version: order.version,
+			status: order.status,
+			userId: order.userId,
+			expiresAt: order.expiresAt.toISOString(),
+			ticket: {
+				id: ticket.id,
+				price: ticket.price,
+			},
+		});
 
 		res.status(201).send(order);
 	}
