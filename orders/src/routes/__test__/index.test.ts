@@ -1,9 +1,12 @@
 import request from 'supertest';
-import { Ticket } from '../../modals/ticket';
 import { app } from '../../app';
+import { Order } from '../../models/order';
+import { Ticket } from '../../models/ticket';
+import mongoose from 'mongoose';
 
 const buildTicket = async () => {
 	const ticket = Ticket.build({
+		id: new mongoose.Types.ObjectId().toHexString(),
 		title: 'concert',
 		price: 20,
 	});
@@ -12,7 +15,7 @@ const buildTicket = async () => {
 	return ticket;
 };
 
-it('fetches order for a perticular user', async () => {
+it('fetches orders for an particular user', async () => {
 	/**
 	 * Create three user and get cookie.
 	 * Create order. 1 for userOne, and 2 for userTwo

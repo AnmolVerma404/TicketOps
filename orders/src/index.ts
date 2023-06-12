@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import { app } from './app';
 import { natsWrapper } from './nats-wrapper';
+import { TicketCreatedListener } from './events/listeners/ticket-created-listener';
+import { TicketUpdatedListener } from './events/listeners/ticket-updated-listener';
 
 const start = async () => {
 	if (!process.env.JWT_KEY) {
@@ -18,6 +20,7 @@ const start = async () => {
 	if (!process.env.NATS_CLUSTER_ID) {
 		throw new Error('NATS_CLUSTER_ID must be defined');
 	}
+
 	try {
 		await natsWrapper.connect(
 			process.env.NATS_CLUSTER_ID,
@@ -33,9 +36,13 @@ const start = async () => {
 			console.log('NATS connection closed!');
 			process.exit();
 		});
+		// ctrl + s || rs the server
+		process.on('SIGINT', () => natsWrapper.client.close());
+		// ctrl + c terminate the terminal
+		process.on('SIGTERM', () => natsWrapper.client.close());
 
-		process.on('SiGINT', () => natsWrapper.client!.close()); // ctrl + s || rs the server
-		process.on('SIGTERM', () => natsWrapper.client!.close()); // ctrl + c terminate the terminal
+		new TicketCreatedListener(natsWrapper.client).listen();
+		new TicketUpdatedListener(natsWrapper.client).listen();
 
 		/**
 		 * This will allow us to connect to a local database of mongoDB.

@@ -1,11 +1,12 @@
-import {
-	NotAuthorizedError,
-	NotFoundError,
-	OrderStatus,
-	requireAuth,
-} from '@avtickets404/common';
 import express, { Request, Response } from 'express';
-import { Order } from '../modals/order';
+import {
+	requireAuth,
+	NotFoundError,
+	NotAuthorizedError,
+} from '@avtickets404/common';
+import { Order, OrderStatus } from '../models/order';
+import { OrderCancelledPublisher } from '../events/publishers/order-cancelled-publisher';
+import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
 
@@ -15,7 +16,8 @@ router.delete(
 	async (req: Request, res: Response) => {
 		const { orderId } = req.params;
 
-		const order = await Order.findById(orderId);
+		const order = await Order.findById(orderId).populate('ticket');
+
 		if (!order) {
 			throw new NotFoundError();
 		}
@@ -24,6 +26,16 @@ router.delete(
 		}
 		order.status = OrderStatus.Cancelled;
 		await order.save();
+
+		console.log('Order cancelled!!!');
+		// publishing an event saying this was cancelled!
+		new OrderCancelledPublisher(natsWrapper.client).publish({
+			id: order.id,
+			version: order.version,
+			ticket: {
+				id: order.ticket.id,
+			},
+		});
 
 		res.status(204).send(order);
 	}
