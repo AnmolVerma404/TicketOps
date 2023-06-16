@@ -53,14 +53,14 @@ afterAll(async () => {
 	await mongoose.connection.close();
 });
 
-global.signin = () => {
+global.signin = (id?: string) => {
 	/**
 	 * As we don't have signup service in ticket's therefore don't have the access to JWT tokken
 	 * A smart way to get over it is create a fake email & id and from that create a JWT tokken
 	 * And perform the base_64 check on it.
 	 */
 	const payload = {
-		id: new mongoose.Types.ObjectId().toHexString(),
+		id: id || new mongoose.Types.ObjectId().toHexString(),
 		email: 'test@test.com',
 	};
 
