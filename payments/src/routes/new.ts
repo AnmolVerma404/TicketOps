@@ -41,7 +41,7 @@ router.post(
 		 * Try to find a new method
 		 */
 		// await stripe.charges.create({
-		// 	currency: 'usd',
+		// 	currency: 'inr',
 		// 	amount: order.price * 100,
 		// 	source: token,
 		// });
@@ -49,14 +49,57 @@ router.post(
 		/**
 		 * This stripe payment method was mentioned in docs
 		 * Link -> https://stripe.com/docs/checkout/quickstart?lang=node&client=react
+		 * tried many ways but they were not working, so skipping payment part for later
 		 */
-		const paymentIntent = await stripe.paymentIntents.create({
-			amount: order.price * 100,
-			currency: 'inr',
-			automatic_payment_methods: {
-				enabled: true,
-			},
-		});
+		// const paymentIntent = await stripe.paymentIntents.create({
+		// 	amount: order.price * 100,
+		// 	currency: 'inr',
+		// 	automatic_payment_methods: {
+		// 		enabled: true,
+		// 	},
+		// 	payment_method_options: {
+		// 		card: {
+		// 			cvc_token: 'toc_visa',
+		// 		},
+		// 	},
+		// 	// @ts-ignore
+		// 	payment_method_data: {
+		// 		billing_details: {
+		// 			address: {
+		// 				city: 'test',
+		// 				country: 'test',
+		// 				line1: 'test',
+		// 				line2: 'test',
+		// 				postal_code: 'test',
+		// 				state: 'test',
+		// 			},
+		// 			email: 'test@test.com',
+		// 			name: 'test',
+		// 			phone: '9876543210',
+		// 		},
+		// 	},
+		// });
+
+		// const customer = await stripe.customers.create({
+		// 	email: 'test@test.com',
+		// 	source: token,
+		// 	name: 'AV',
+		// 	address: {
+		// 		line1: 'abc',
+		// 		postal_code: '123411',
+		// 		city: 'Bhopal',
+		// 		state: 'MP',
+		// 		country: 'India',
+		// 	},
+		// });
+		// const charge = await stripe.charges.create({
+		// 	amount: 100 * 100,
+		// 	description: 'abc',
+		// 	currency: 'INR',
+		// 	customer: customer.id,
+		// });
+
+		// res.send({ clientSecret: paymentIntent.client_secret, success: true });
 		res.send({ success: true });
 	}
 );
