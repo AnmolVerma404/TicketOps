@@ -40,12 +40,23 @@ router.post(
 		 * RBI have changed some rules, so his method is not working
 		 * Try to find a new method
 		 */
-		await stripe.charges.create({
-			currency: 'usd',
-			amount: order.price * 100,
-			source: token,
-		});
+		// await stripe.charges.create({
+		// 	currency: 'usd',
+		// 	amount: order.price * 100,
+		// 	source: token,
+		// });
 
+		/**
+		 * This stripe payment method was mentioned in docs
+		 * Link -> https://stripe.com/docs/checkout/quickstart?lang=node&client=react
+		 */
+		const paymentIntent = await stripe.paymentIntents.create({
+			amount: order.price * 100,
+			currency: 'inr',
+			automatic_payment_methods: {
+				enabled: true,
+			},
+		});
 		res.send({ success: true });
 	}
 );
