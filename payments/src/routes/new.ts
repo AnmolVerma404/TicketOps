@@ -10,6 +10,7 @@ import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { Order } from '../models/order';
 import { stripe } from '../stripe';
+import { Payment } from '../models/payment';
 
 const router = express.Router();
 
@@ -104,6 +105,12 @@ router.post(
 		// 	description: 'Rails Stripe transaction',
 		// 	currency: 'INR',
 		// });
+
+		const payment = Payment.build({
+			orderId,
+			stripeId: 'WAIT_TILL_FRONTEND_FOR_STRIPE_PAYMENT_INTENTS',
+		});
+		await payment.save();
 
 		// res.send({ clientSecret: paymentIntent.client_secret, success: true });
 		res.status(201).send({ success: true });
