@@ -98,9 +98,15 @@ router.post(
 		// 	currency: 'INR',
 		// 	customer: customer.id,
 		// });
+		// stripe.paymentIntents.create({
+		// 	customer: customer.id,
+		// 	amount: 100 * 100,
+		// 	description: 'Rails Stripe transaction',
+		// 	currency: 'INR',
+		// });
 
 		// res.send({ clientSecret: paymentIntent.client_secret, success: true });
-		res.send({ success: true });
+		res.status(201).send({ success: true });
 	}
 );
 
