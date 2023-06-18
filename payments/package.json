@@ -18,7 +18,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"@avtickets404/common": "^1.0.15",
+		"@avtickets404/common": "^1.0.17",
 		"@types/cookie-session": "^2.0.44",
 		"@types/express": "^4.17.15",
 		"@types/jsonwebtoken": "^9.0.1",
