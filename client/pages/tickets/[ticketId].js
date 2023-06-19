@@ -24,6 +24,11 @@ const TicketShow = ({ ticket }) => {
 };
 
 TicketShow.getInitialProps = async (context,client) =>{
+	/**
+	 * The name ticketId should not be changed as it's the name of this file.
+	 * As next JS in implemented on pages therefore the link path should be a file name following the hirearchy
+	 * Therefore [xyz] shows next that it can be dynamic name
+	 */
     const {ticketId} = context.query;
     const {data} = await client.get(`/api/tickets/${ticketId}`);
 
