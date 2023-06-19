@@ -15,7 +15,7 @@ const NewTicket = () =>{
         onSuccess:()=> Router.push('/')
     })
 
-    const onSubmit = () =>{
+    const onSubmit = (event) =>{
         event.preventDefault();
 
         doRequest();
