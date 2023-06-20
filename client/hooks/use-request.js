@@ -3,10 +3,15 @@ import { useState } from 'react';
 
 export default ({ url, method, body, onSuccess }) => {
 	const [errors, setErrors] = useState(null);
-	const doRequest = async () => {
+	const doRequest = async (props={}) => {
 		try {
 			setErrors(null);
-			const response = await axios[method](url, body);
+			/**
+			 * As the ticked id and order id are send at different location therefore merge them
+			 */
+			const response = await axios[method](url, {
+				...body,...props
+			});
 
 			if (onSuccess) {
 				onSuccess(response.data);
