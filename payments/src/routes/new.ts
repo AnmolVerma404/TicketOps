@@ -23,10 +23,11 @@ router.post(
 	validateRequest,
 	async (req: Request, res: Response) => {
 		/**
-		 * @var token will be including infomations like credit card details.
+		 * @var token will be including infomations like credit card details. But no need in new stripe
 		 * @var orderId defines the order that is making the payment, using which we can search for the user and other information.
+		 * @var currentUrl is for the case when payment is cancelled
 		 */
-		const { token, orderId } = req.body;
+		const { orderId, currentUrl } = req.body;
 
 		const order = await Order.findById(orderId);
 
@@ -46,7 +47,6 @@ router.post(
 		 * Link -> https://stripe.com/docs/checkout/quickstart?lang=node&client=react
 		 * tried many ways but they were not working, so skipping payment part for later
 		 */
-		console.log('order', order);
 
 		const items = [
 			{
@@ -74,10 +74,8 @@ router.post(
 				}
 			),
 			success_url: 'https://ticketing.dev/orders',
-			cancel_url: 'https://ticketing.dev/orders',
+			cancel_url: currentUrl,
 		});
-
-		console.log('session=>', session);
 
 		const payment = Payment.build({
 			orderId,
