@@ -48,6 +48,8 @@ The app will be available at http://localhost:3000. -->
   Nats streaming server: a high-performance messaging system for building distributed applications
 - **Docker**: a platform for building, shipping, and running applications in containers
 - **Kubernetes**: an open-source system for automating deployment, scaling, and management of containerized applications
+- **Nginx**: It's a reverse proxy application which basically take user's request and forward it to backend server. Proxy helps in caching, security, stoping malicious websites. It can also act as a load balancer, where proxy redirect request to a certain server.
+- **Ingress Nginx**: It act's as a router and this is different from Nginx, as it's used for routing API/Path's of different services in our k8s application.
 - **Skaffold** is a service more like nodemon for kubernetes, it solve many time taking steps and automate applying, pushing, and redeploying of cluster. You just need to have a proper _skaffold.yaml_ file with it's command in it, inside your project directory and run the command `skaffold dev` to start the server. It will check the file for any changes you tagged inside skaffold.yaml congig file. Remember to push the build and push the image to docker hub before running skaffold dev. If skaffold is showing some error just restart it.
 - **Git submodules**
   - When you are in a repo and need to add another repo in your project.
